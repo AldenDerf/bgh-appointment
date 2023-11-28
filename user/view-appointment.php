@@ -1,7 +1,5 @@
-<!--  -->
-
 <?php
-
+ob_start(); // Start output buffering
 include("../config.php");
 
 
@@ -85,7 +83,9 @@ if (isset($_POST["btn-cancel-appointment"])) {
     // Call the function to cancel appointment
     if (cancelAppointment($conn, $reference_num)) {
         //Redirect after sucessful cancellation
+        ob_end_clean(); // Clear the output buffer without sending its contents
         header("Location: success_cancel.php?reference_num=" . $reference_num);
+        exit(); // Ensure script stops here
     } else {
         echo "Cancellation faild. Please try again.";
     }
@@ -93,9 +93,8 @@ if (isset($_POST["btn-cancel-appointment"])) {
 
 // Close connection
 $conn->close();
-
+ob_end_flush(); // Move this line to the end of your script
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 

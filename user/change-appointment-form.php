@@ -218,7 +218,6 @@ include("./change-appointment-func.php");
 </body>
 
 <!-- Script -->
-
 <script>
     let towns = [{
             townName: "Choose..",
@@ -484,7 +483,4 @@ include("./change-appointment-func.php");
         arguments
     });
 </script>
-
-
-
 </html>

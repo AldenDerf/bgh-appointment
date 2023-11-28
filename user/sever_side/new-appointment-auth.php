@@ -1,6 +1,7 @@
 <?php
+ob_start(); // Start output buffering
 
-//  Validate Form Data
+// Validate Form Data
 function test_input($data)
 {
     $data = trim($data);
@@ -17,18 +18,19 @@ function currentDateTime()
     return $currentDateTime->format('Y-m-d H:i:s');
 }
 
-// Variables
+// Variables initialization
 $firstname = $middle_initial = $lastname =
     $mobile_number = $town = $barangay =
     $time = $date = $purpose = "";
-$status = 'scheduled';
 
+$status = 'scheduled';
 
 // Variables for errors
 $firstnameErr = $middle_initialErr = $lastnameErr = $mobile_numberErr = $townErr = $barangayErr = $timeErr = $dateErr = $purposeErr = '';
 
+// Check if form is submitted
 if (isset($_POST['btn-new-appoint'])) {
-    // receive all input values from the form
+    // Sanitize and retrieve form input values
     $firstname = mysqli_real_escape_string($conn, $_POST['firstname']);
     $middle_initial = mysqli_real_escape_string($conn, $_POST['middle-initial']);
     $lastname = mysqli_real_escape_string($conn, $_POST['lastname']);
@@ -39,14 +41,12 @@ if (isset($_POST['btn-new-appoint'])) {
     $date = mysqli_real_escape_string($conn, $_POST['appointment-date']);
     $purpose = mysqli_real_escape_string($conn, $_POST['purpose']);
 
-    // VALIDATION
+    // Perform validation
 
     // Validate middle initial
-
-    if (!empty($_POST['middle-initial']) && (!preg_match("/^[a-zA-ZñÑ -']*$/", $middle_initial))) {
+    if (!empty($_POST['middle-initial']) && !preg_match("/^[a-zA-ZñÑ -']*$/", $middle_initial)) {
         $middle_initialErr = "Only letters and white space allowed!";
     }
-
 
     // Validate firstname
     if (empty($_POST['firstname'])) {
@@ -57,21 +57,17 @@ if (isset($_POST['btn-new-appoint'])) {
         }
     }
 
-
     // Validate last name
     if (empty($_POST["lastname"])) {
         $lastnameErr = "Last name is required!";
     } else {
-
         if (!preg_match("/^[a-zA-ZñÑ -']*$/", $lastname)) {
             $lastnameErr = "Only letters and white space allowed!";
         }
     }
 
     // Validate mobile number
-    if (
-        empty($_POST['mobile-number'])
-    ) {
+    if (empty($_POST['mobile-number'])) {
         $mobile_numberErr = 'Mobile number is required!';
     } else {
         if (!preg_match("/^9[0-9]{9}$/", $mobile_number)) {
@@ -91,12 +87,12 @@ if (isset($_POST['btn-new-appoint'])) {
 
     // Validate time
     if (empty($_POST["appointment-time"])) {
-        $timeErr = "Please select time for your appointment";
+        $timeErr = "Please select a time for your appointment";
     }
 
     // Validate date
     if (empty($_POST["appointment-date"])) {
-        $dateErr = 'Please select date for your appointment';
+        $dateErr = 'Please select a date for your appointment';
     }
 
     // Validate purpose
@@ -104,12 +100,12 @@ if (isset($_POST['btn-new-appoint'])) {
         $purposeErr = "Purpose is required!";
     }
 
-    // Checks errors before inserting in database
+    // Check errors before inserting into the database
     if (
-        (empty($firstnameErr)) && (empty($middle_initialErr)) && (empty($lastnameErr)) &&
-        (empty($mobile_numberErr)) && (empty($townErr)) &&
-        (empty($barangayErr)) && (empty($timeErr)) &&
-        (empty($dateErr)) && (empty($purposeErr))
+        empty($firstnameErr) && empty($middle_initialErr) && empty($lastnameErr) &&
+        empty($mobile_numberErr) && empty($townErr) &&
+        empty($barangayErr) && empty($timeErr) &&
+        empty($dateErr) && empty($purposeErr)
     ) {
 
         $sql = "
@@ -153,18 +149,13 @@ if (isset($_POST['btn-new-appoint'])) {
             $param_date_requested = currentDateTime();
             $param_reference_num = $reference_num;
 
-
-
-            // Attempt to excute the prepared statement
+            // Attempt to execute the prepared statement
             if ($stmt->execute()) {
-
-                // Records created successfully. Redirect to ..
+                // Records created successfully. Redirect to..
+                ob_end_clean(); // Clean (erase) the buffer before header modification
                 header("Location: appointment-confirm.php?reference_num=" . $reference_num);
+                exit; // Ensure script stops here after header modification
 
-                // Reset form field variables except for the status and date
-                $firstname = $middle_initial = $lastname =
-                    $mobile_number = $town = $barangay =
-                    $time = $date = $purpose = "";
             } else {
                 echo "Oops! Something went wrong. Please try again later ";
             }
@@ -177,3 +168,4 @@ if (isset($_POST['btn-new-appoint'])) {
     // Close connection
     $conn->close();
 }
+?>

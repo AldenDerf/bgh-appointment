@@ -1,5 +1,3 @@
-<!--  -->
-
 <?php
 
 include("../config.php");
@@ -105,7 +103,7 @@ $conn->close();
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
-
+    <title>Updated Successfully</title>
 
     <style>
         /* Your CSS styles remain unchanged */
@@ -259,77 +257,62 @@ $conn->close();
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 
-    <script>
-        function downloadDivAsImage() {
-            const element = document.querySelector('.card-body');
+</body>
+<script>
+    function downloadDivAsImage() {
+        const element = document.querySelector('.card-body');
 
-            // Create a promise that resolves when all images inside the element are loaded
-            const imagesLoaded = Array.from(element.querySelectorAll('img')).map(img =>
-                new Promise(resolve => {
-                    if (img.complete) {
-                        resolve();
-                    } else {
-                        img.onload = resolve;
-                    }
-                })
-            );
+        // Create a promise for loaded images
+        const imagesLoaded = Array.from(element.querySelectorAll('img')).map(img =>
+            new Promise(resolve => {
+                if (img.complete) {
+                    resolve();
+                } else {
+                    img.onload = resolve;
+                }
+            })
+        );
 
-            // After all images are loaded, capture the element
-            Promise.all(imagesLoaded).then(() => {
-                html2canvas(element, {
-                    backgroundColor: getComputedStyle(element).backgroundColor
-                }).then(canvas => {
-                    const link = document.createElement('a');
-                    link.download = 'appointment_confirmation.png';
-                    link.href = canvas.toDataURL();
-                    link.click();
-                });
-            });
-        }
-
-        document.getElementById('downloadBtn').addEventListener('click', downloadDivAsImage);
-
-
-        // Function to handle the Print button click event
-        function handlePrintButtonClick() {
-            var content = document.querySelector('.card-body').innerHTML; // Get content of the specific div
-
-            var printWindow = window.open('', '_blank'); // Open a new window
-            printWindow.document.open();
-            printWindow.document.write('<html><head><title>Print</title>');
-            printWindow.document.write('<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css">'); // Add Bootstrap CSS
-            printWindow.document.write('</head><body>'); // Start printing
-
-            // Wrap content in a div with class for print-specific styles
-            printWindow.document.write('<div class="print-content">' + content + '</div>');
-
-            printWindow.document.write('</body></html>'); // Close printing
-            printWindow.document.close();
-            printWindow.print(); // Trigger the print dialog
-        }
-
-        // Add a click event listener to the Print button
-        document.getElementById('printBtn').addEventListener('click', handlePrintButtonClick);
-
-
-        // Extracting PHP reference number to JavaScript
-        const reference_num = '<?php echo $reference_num; ?>'
-
-        // assigning reference_number in header when clicking the #changeAppointmentBtn
-        $(document).ready(function() {
-
-
-            // Add a click event listener to the button
-            $('#changeAppointmentBtn').on('click', function() {
-
-
-                //Redirect to change-appointment-func.php with the reference number
-                window.location.href = `./change-appointment-form.php?reference_num=${reference_num}`;
+        // Capture the element after all images are loaded
+        Promise.all(imagesLoaded).then(() => {
+            html2canvas(element, {
+                backgroundColor: getComputedStyle(element).backgroundColor
+            }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = 'appointment_confirmation.png';
+                link.href = canvas.toDataURL();
+                link.click();
             });
         });
-    </script>
-</body>
+    }
 
-</html>
+    document.getElementById('downloadBtn').addEventListener('click', downloadDivAsImage);
+
+    function handlePrintButtonClick() {
+        // Your existing JavaScript code for printing the content
+        var content = document.querySelector('.card-body').innerHTML;
+        var printWindow = window.open('', '_blank');
+        printWindow.document.open();
+        printWindow.document.write('<html><head><title>Print</title>');
+        printWindow.document.write('<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css">');
+        printWindow.document.write('</head><body>');
+
+        // Wrap content for print-specific styles
+        printWindow.document.write('<div class="print-content">' + content + '</div>');
+        printWindow.document.write('</body></html>');
+        printWindow.document.close();
+        printWindow.print();
+    }
+
+    document.getElementById('printBtn').addEventListener('click', handlePrintButtonClick);
+
+    const reference_num = '<?php echo $reference_num; ?>';
+
+    $(document).ready(function() {
+        $('#changeAppointmentBtn').on('click', function() {
+            window.location.href = `./change-appointment-form.php?reference_num=${reference_num}`;
+        });
+    });
+</script>
 
 </html>

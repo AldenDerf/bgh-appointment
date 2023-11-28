@@ -1,5 +1,3 @@
-<!--  -->
-
 <?php
 
 include("../config.php");
@@ -42,12 +40,9 @@ if ($stmt = $conn->prepare($sql)) {
         echo "Error executing the query" . $stmt->error;
     }
 }
-
 // Close connection
 $conn->close();
-
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -100,8 +95,9 @@ $conn->close();
                             </p>
                             <p>
                                 Time:<b>
-                                    <?php echo $appointment_time; ?>
-                                </b>
+                                    <span id='time-id'>
+                                        <?php echo $appointment_time; ?>
+                                    </span> </b>
                             </p>
                         </div>
 
@@ -128,75 +124,117 @@ $conn->close();
                             <i class="bi bi-house-door-fill"></i> Back to Main
                         </a>
                     </div>
-
                 </div>
             </div>
-
-
         </div>
-
-
     </div>
-
-
-    </div>
-
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-
-    <script>
-        function downloadDivAsImage() {
-            const element = document.querySelector('.card-body');
-
-            // Create a promise that resolves when all images inside the element are loaded
-            const imagesLoaded = Array.from(element.querySelectorAll('img')).map(img =>
-                new Promise(resolve => {
-                    if (img.complete) {
-                        resolve();
-                    } else {
-                        img.onload = resolve;
-                    }
-                })
-            );
-
-            // After all images are loaded, capture the element
-            Promise.all(imagesLoaded).then(() => {
-                html2canvas(element, {
-                    backgroundColor: getComputedStyle(element).backgroundColor
-                }).then(canvas => {
-                    const link = document.createElement('a');
-                    link.download = 'appointment_confirmation.png';
-                    link.href = canvas.toDataURL();
-                    link.click();
-                });
-            });
-        }
-
-        document.getElementById('downloadBtn').addEventListener('click', downloadDivAsImage);
-
-
-        // Function to handle the Print button click event
-        function handlePrintButtonClick() {
-            var content = document.querySelector('.card-body').innerHTML; // Get content of the specific div
-
-            var printWindow = window.open('', '_blank'); // Open a new window
-            printWindow.document.open();
-            printWindow.document.write('<html><head><title>Print</title>');
-            printWindow.document.write('<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css">'); // Add Bootstrap CSS
-            printWindow.document.write('</head><body>'); // Start printing
-
-            // Wrap content in a div with class for print-specific styles
-            printWindow.document.write('<div class="print-content">' + content + '</div>');
-
-            printWindow.document.write('</body></html>'); // Close printing
-            printWindow.document.close();
-            printWindow.print(); // Trigger the print dialog
-        }
-
-        // Add a click event listener to the Print button
-        document.getElementById('printBtn').addEventListener('click', handlePrintButtonClick);
-    </script>
 </body>
+
+<script>
+    function downloadDivAsImage() {
+        const element = document.querySelector('.card-body');
+
+        // Create a promise for loaded images
+        const imagesLoaded = Array.from(element.querySelectorAll('img')).map(img =>
+            new Promise(resolve => {
+                if (img.complete) {
+                    resolve();
+                } else {
+                    img.onload = resolve;
+                }
+            })
+        );
+
+        // Capture the element after all images are loaded
+        Promise.all(imagesLoaded).then(() => {
+            html2canvas(element, {
+                backgroundColor: getComputedStyle(element).backgroundColor
+            }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = 'appointment_confirmation.png';
+                link.href = canvas.toDataURL();
+                link.click();
+            });
+        });
+    }
+
+    document.getElementById('downloadBtn').addEventListener('click', downloadDivAsImage);
+
+    function handlePrintButtonClick() {
+        var content = document.querySelector('.card-body').innerHTML;
+        var printWindow = window.open('', '_blank');
+        printWindow.document.open();
+        printWindow.document.write('<html><head><title>Print</title>');
+        printWindow.document.write('<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css">');
+        printWindow.document.write('</head><body>');
+
+        // Wrap content for print-specific styles
+        printWindow.document.write('<div class="print-content">' + content + '</div>');
+        printWindow.document.write('</body></html>');
+        printWindow.document.close();
+        printWindow.print();
+    }
+
+    document.getElementById('printBtn').addEventListener('click', handlePrintButtonClick);
+
+    document.addEventListener("DOMContentLoaded", function() {
+        var displayedTime = document.getElementById('time-id');
+        if (displayedTime) {
+            var timeIn12HourFormat = convertTo12HourFormat(displayedTime.innerText);
+            displayedTime.innerText = timeIn12HourFormat;
+            console.log(timeIn12HourFormat);
+        } else {
+            console.error("Element with ID 'time-id' not found");
+        }
+    });
+
+    function convertTo12HourFormat(time24) {
+        // Split the time into hours and minutes
+        var [hours, minutes] = time24.split(':');
+
+        // Convert the hours to a number
+        hours = parseInt(hours, 10);
+
+        // Determine AM or PM suffix
+        var suffix = hours >= 12 ? 'PM' : 'AM';
+
+        // Convert hours to 12-hour format
+        hours = hours % 12 || 12;
+
+        // Format the time in 12-hour format
+        var time12 = hours + ':' + minutes + ' ' + suffix;
+
+        return time12;
+    }
+
+    function convertDateFormat(dateString) {
+        // Split the date string into month, day, and year
+        var [month, day, year] = dateString.split('/');
+
+        // Create a Date object using the parsed values
+        var date = new Date(year, month - 1, day); // month - 1 because months are zero-indexed in JavaScript
+
+        // Define an array for month names
+        var monthNames = [
+            'January', 'February', 'March', 'April', 'May', 'June',
+            'July', 'August', 'September', 'October', 'November', 'December'
+        ];
+
+        // Get the month name from the array
+        var monthName = monthNames[date.getMonth()];
+
+        // Format the date in the desired format
+        var formattedDate = monthName + ' ' + day + ', ' + year;
+
+        return formattedDate;
+    }
+
+    // var displayedTime = document.getElementById('time-id').innerText;
+    // convertTo24HourFormat(displayedTime);
+    // console.log(timeIn12HourFormat);
+</script>
 
 </html>

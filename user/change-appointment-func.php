@@ -1,5 +1,5 @@
 <?php
-
+ob_start(); // Start output buffering
 include("../config.php");
 // Retrieve the reference_num from the URL parameter
 
@@ -161,7 +161,7 @@ if (
             $param_appointment_date = $date;
             $param_purpose = $purpose;
             $param_date_requested = currentDateTime();
-            $param_reference_num = trim($_GET['reference_num'] ?? ''); 
+            $param_reference_num = trim($_GET['reference_num'] ?? '');
 
 
 
@@ -175,6 +175,7 @@ if (
                 $firstname = $middle_initial = $lastname =
                     $mobile_number = $town = $barangay =
                     $time = $date = $purpose = "";
+                ob_end_flush(); // Flush output buffer
             } else {
                 echo "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
             }
@@ -234,3 +235,4 @@ if (
         echo "Reference number not found";
     }
 }
+?>

@@ -1,4 +1,5 @@
 <?php
+ob_start(); // Start output buffering
 include('./config.php');
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
@@ -40,6 +41,7 @@ if (isset($_POST["view-details"])) {
                 // Redirect with reference number if found
                 header('Location: ./user/view-appointment.php?reference_num=' . $reference_num);
                 $inputed = '';
+                ob_end_flush(); // Flush output buffer
                 exit();
             } else {
                 $inputedErr = 'No Records found';
@@ -127,7 +129,7 @@ $conn->close();
 
     <!-- Footer -->
     <footer class="footer mt-auto py-3" style='bottom: 0;'>
-        <div class="container text-center" >
+        <div class="container text-center">
             <span class="text-muted">© 2023 Batanes General Hospital</span>
         </div>
     </footer>

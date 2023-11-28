@@ -10,18 +10,15 @@ include('./sever_side/new-appointment-auth.php');
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Appointment-form</title>
+    <title>New Appointment</title>
 
-    <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <!-- Include Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Bootstrap icon -->
+    <!-- Include Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
 
-    <!-- For time picker -->
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <script src="https://unpkg.com/gijgo@1.9.14/js/gijgo.min.js" type="text/javascript"></script>
+    <!-- Include Datepicker and Timepicker CSS -->
     <link href="https://unpkg.com/gijgo@1.9.14/css/gijgo.min.css" rel="stylesheet" type="text/css" />
 
 <body>
@@ -141,10 +138,10 @@ include('./sever_side/new-appointment-auth.php');
                     <!-- Time picker -->
                     <div class='form-group col-md-6 '>
                         <label for='timepicker'>Pick time</label>
-                        <input name='appointment-time' id="timepicker" class="form-control 
+                        <input name='appointment-time' id='appoint-date' type="time"  class="form-control 
                             <?php
                             echo (!empty($timeErr)) ? 'is-invalid border border-danger' : '';
-                            ?>" onclick='disableTextBox()' onchange="convertAndDisplay()" value='<?php echo $time; ?>'>
+                            ?>"  value='<?php echo $time; ?>'>
 
                         <script>
                             console.log('<?php echo $timeErr; ?>')
@@ -156,7 +153,7 @@ include('./sever_side/new-appointment-auth.php');
                     <!-- Date Picker -->
                     <div class='form-group col-md-6'>
                         <label for='datepicker'>Pick Date</label>
-                        <input name='appointment-date' id="datepicker" class="form-control <?php echo (!empty($dateErr)) ? 'is-invalid border border-danger' : ''; ?>" value="<?php echo $date; ?>" onclick=' disableTextBoxDate()' onchange="convertAndDisplayDate()">
+                        <input name='appointment-date' type="date" class="form-control <?php echo (!empty($dateErr)) ? 'is-invalid border border-danger' : ''; ?>" value="<?php echo $date; ?>" onclick=' disableTextBoxDate()' onchange="convertAndDisplayDate()">
                     </div>
                 </div>
 
@@ -187,19 +184,28 @@ include('./sever_side/new-appointment-auth.php');
         </div>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous">
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+    <!-- Include jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    <!-- Town and Barangay -->
-    <script src="./javascipts/brgyTown.js"></script>
+    <!-- Include Bootstrap Bundle (Bootstrap JS + Popper.js) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Include Datepicker and Timepicker JS -->
+    <script src="https://unpkg.com/gijgo@1.9.14/js/gijgo.min.js"></script>
+
+    <!-- Your script for initializing Datepicker and Timepicker -->
 </body>
-
-<!-- Script -->
-
 <script>
+    $(document).ready(function() {
+        $('#timepicker').timepicker({
+            uiLibrary: 'bootstrap5'
+        });
+
+        $('#datepicker').datepicker({
+            uiLibrary: 'bootstrap5'
+        });
+    });
+
     let towns = [{
             townName: "Choose..",
             value: "",
@@ -361,15 +367,6 @@ include('./sever_side/new-appointment-auth.php');
                 ];
         }
     }
-    // Date picker
-    $('#timepicker').timepicker({
-        uiLibrary: 'bootstrap5'
-    });
-
-    // Time picker
-    $('#datepicker').datepicker({
-        uiLibrary: 'bootstrap5'
-    });
 
     document.addEventListener("DOMContentLoaded", function() {
         let selectTown = document.getElementById("town").value;
@@ -449,7 +446,5 @@ include('./sever_side/new-appointment-auth.php');
         selectTown.appendChild(optionElement);
     });
 </script>
-
-
 
 </html>
