@@ -225,6 +225,7 @@ $conn->close();
         return time12;
     }
 
+    // Date conversion from YYYY-DD-MM to Month DD, YYYY
     function convertDateFormat(dateString) {
         // Split the date string into month, day, and year
         console.log(dateString)
