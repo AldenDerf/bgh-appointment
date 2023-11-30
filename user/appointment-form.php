@@ -52,33 +52,23 @@ include('./sever_side/new-appointment-auth.php');
                     <!-- First Name -->
                     <div class="form-group col-md-5 mb-1">
                         <label for='firstname'>First Name</label>
-                        <input type='text' name='firstname' class='
-                                form-control
-                                <?php echo (!empty($firstnameErr)) ? 'is-invalid' : '' ?>
-                                ' id='firstname' placeholder='First name' value='<?php echo $firstname; ?>'>
-                        <div class='invalid-feedback'>
-                            <?php echo (!empty($firstnameErr)) ? $firstnameErr : '' ?>
+                        <input type='text' name='firstname' class='form-control' id='firstname' placeholder='First name'>
+                        <div class='invalid-feedback' id='firstname-error'>
                         </div>
                     </div>
 
                     <!-- Middle Initial -->
                     <div class="form-group col-md-2 mb-1">
-                        <label for='middle-initial'>M.I.</label>
-                        <input type='text' name='middle-initial' class='form-control <?php echo (!empty($middle_initialErr)) ? 'is-invalid' : '' ?>' id='middle-initial' placeholder='M.I.' value='<?php echo $middle_initial; ?>'>
-                        <div class='invalid-feedback'>
-                            <?php echo (!empty($middle_initialErr) ? $middle_initialErr : '') ?>
-                        </div>
+                        <label for='middle-initial'>M.I. (<span style='font-style:italic; font-size:smaller;'>Optional</span>)</label>
+                        <input type='text' name='middle-initial' class='form-control' id='middle-initial' placeholder='M.I.'>
+                        <div class='invalid-feedback' id='middlename-error'></div>
                     </div>
 
                     <!-- Last Name -->
                     <div class="form-group col-md-5 mb-1">
                         <label for='lastname'>Last Name</label>
-                        <input type='text' name='lastname' class='form-control
-                            <?php echo (!empty($lastnameErr)) ? 'is-invalid' : '' ?>
-                            ' id='lastname' placeholder='Last Name' value='<?php echo $lastname; ?>'>
-                        <div class='invalid-feedback'>
-                            <?php echo (!empty($lastnameErr)) ? $lastnameErr : '' ?>
-                        </div>
+                        <input type='text' name='lastname' class='form-control' id='lastname' placeholder='Last Name'>
+                        <div class='invalid-feedback' id='lastname-error'></div>
                     </div>
                 </div>
 
@@ -89,47 +79,31 @@ include('./sever_side/new-appointment-auth.php');
                         <div class="input-group-text">
                             +63
                         </div>
-                        <input type='number' name='mobile-number' class='form-control
-                            <?php echo (!empty($mobile_numberErr)) ? 'is-invalid' : '' ?>
-                            ' id='mobile-number' placeholder='9XXXXXXXXX' value='<?php echo $mobile_number; ?>'>
-                        <div class='invalid-feedback'>
-                            <?php echo (!empty($mobile_numberErr)) ? $mobile_numberErr : ''; ?>
-                        </div>
+                        <input type='number' name='mobile-number' class='form-control' id='mobile-number' placeholder='9XXXXXXXXX'>
+                        <div class='invalid-feedback' id='mobile-num-error'></div>
                     </div>
 
                 </div>
 
                 <!-- Address -->
                 <div class="row g-3 mb-4">
+
                     <!-- Town -->
                     <div class="form-group col-md-6">
-                        <label for='town'>From what town</label>
-                        <select name='town' class='
-                                form-select
-                                <?php echo (!empty($townErr) ? 'is-invalid' : '') ?>
-                                ' id='town'>
+                        <label for='town-select'>From what town</label>
+                        <select name='town' class='form-select' id='town-select'>
+                            <option value='' selected>Choose...</option>
                         </select>
-                        <div class='invalid-feedback'>
-                            <?php echo (!empty($townErr)) ? $townErr : '' ?>
-                        </div>
+                        <div class='invalid-feedback' id='town-error'></div>
                     </div>
 
                     <!-- Barangay -->
                     <div class="form-group col-md-6">
                         <label for='barangay'>Barangay</label>
-                        <select name='barangay' class="
-                                form-select
-                                <?php
-                                echo (!empty($barangayErr)) ? 'is-invalid' : '';
-                                ?>
-                                " id='barangay'>
-
+                        <select name='barangay' class='form-select' id='barangay'>
+                            <option value='' selected>Choose...</option>
                         </select>
-                        <div class='invalid-feedback'>
-                            <?php
-                            echo (!empty($barangayErr)) ? $barangayErr : '';
-                            ?>
-                        </div>
+                        <div class='invalid-feedback' id='barangay-error'></div>
                     </div>
                 </div>
 
@@ -138,10 +112,10 @@ include('./sever_side/new-appointment-auth.php');
                     <!-- Time picker -->
                     <div class='form-group col-md-6 '>
                         <label for='timepicker'>Pick time</label>
-                        <input name='appointment-time' id='appoint-date' type="time"  class="form-control 
+                        <input name='appointment-time' id='appoint-date' type="time" class="form-control 
                             <?php
                             echo (!empty($timeErr)) ? 'is-invalid border border-danger' : '';
-                            ?>"  value='<?php echo $time; ?>'>
+                            ?>" value='<?php echo $time; ?>'>
 
                         <script>
                             console.log('<?php echo $timeErr; ?>')
@@ -152,8 +126,9 @@ include('./sever_side/new-appointment-auth.php');
 
                     <!-- Date Picker -->
                     <div class='form-group col-md-6'>
-                        <label for='datepicker'>Pick Date</label>
-                        <input name='appointment-date' type="date" class="form-control <?php echo (!empty($dateErr)) ? 'is-invalid border border-danger' : ''; ?>" value="<?php echo $date; ?>" onchange="convertAndDisplayDate()">
+                        <label for='datepicker'>Pick Date (<span style='font-size:11px; font-style:italic;'>dd-mm-yyyy</span>)</label>
+                        <input name='appointment-date' type="date" class="form-control">
+                        <div class="invalid-feedback" id='date-error'></div>
                     </div>
                 </div>
 
@@ -184,267 +159,16 @@ include('./sever_side/new-appointment-auth.php');
         </div>
     </footer>
 
-    <!-- Include jQuery -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 
     <!-- Include Bootstrap Bundle (Bootstrap JS + Popper.js) -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Include Datepicker and Timepicker JS -->
-    <script src="https://unpkg.com/gijgo@1.9.14/js/gijgo.min.js"></script>
+    <!-- new-appointment-validation.js -->
+    <script src="./javascipts/new-appointment-validation.js"></script>
 
-    <!-- Your script for initializing Datepicker and Timepicker -->
+    <!-- for town and barangay -->
+    <script src='./javascipts/batanesTowns.js'></script>
 </body>
-<script>
-    $(document).ready(function() {
-        $('#timepicker').timepicker({
-            uiLibrary: 'bootstrap5'
-        });
-
-        $('#datepicker').datepicker({
-            uiLibrary: 'bootstrap5'
-        });
-    });
-
-    let towns = [{
-            townName: "Choose..",
-            value: "",
-        },
-        {
-            townName: "Basco",
-            value: "Basco",
-        },
-
-        {
-            townName: "Mahatao",
-            value: "Mahatao",
-        },
-
-        {
-            townName: "Ivana",
-            value: "Ivana",
-        },
-
-        {
-            townName: "Uyugan",
-            value: "Uyugan",
-        },
-
-        {
-            townName: "Sabtang",
-            value: "Sabtang",
-        },
-
-        {
-            townName: "Itbayat",
-            value: "Itbayat",
-        },
-    ];
-
-    // Barangay APIS
-    function barangays(town) {
-        switch (town) {
-            case "Basco":
-                return [{
-                        brgyName: "Ihubok I(Kaychanarianan)",
-                        value: "kaychanariananan",
-                    },
-                    {
-                        brgyName: "Ihubok II (Kayvaluganan)",
-                        value: "Kayvaluganan",
-                    },
-                    {
-                        brgyName: "Kayhuvokan",
-                        value: "Kayhuvokan",
-                    },
-                    {
-                        brgyName: "San Antonion",
-                        value: "San Antonio",
-                    },
-                    {
-                        brgyName: "San Joaqiun",
-                        value: "San Joaquin",
-                    },
-                ];
-
-            case "Mahatao":
-                return [{
-                        brgyName: "Kaumbakan",
-                        value: "Kaumbakan",
-                    },
-                    {
-                        brgyName: "Hañib",
-                        value: "Hañib",
-                    },
-                    {
-                        brgyName: "Panatayan",
-                        value: "Panatayan",
-                    },
-                    {
-                        brgyName: "Uvoy (Poblacion)",
-                        value: "Uvoy",
-                    },
-                ];
-
-            case "Ivana":
-                return [{
-                        brgyName: "Radiwan",
-                        value: "Radiwan",
-                    },
-                    {
-                        brgyName: "Salagao",
-                        value: "Salagao",
-                    },
-                    {
-                        brgyName: "San Vicente",
-                        value: "San Vicente",
-                    },
-                    {
-                        brgyName: "Tuhel",
-                        value: "Tuhel",
-                    },
-                ];
-
-            case "Uyugan":
-                return [{
-                        brgyName: "Kayuganan (Poblacion)",
-                        value: "Kayuganan",
-                    },
-                    {
-                        brgyName: "Kayvaluganan (Poblacion)",
-                        value: "Kayvaluganan",
-                    },
-                    {
-                        brgyName: "Itbud",
-                        value: "Itbud",
-                    },
-                    {
-                        brgyName: "Imnahbu",
-                        value: "Imnahbu",
-                    },
-                ];
-
-            case "Sabtang":
-                return [{
-                        brgyName: "Sinakan (Poblacion)",
-                        value: "Sinakan",
-                    },
-                    {
-                        brgyName: "Malakdang (Poblacion)",
-                        value: "Malakdang",
-                    },
-                    {
-                        brgyName: "Savidug",
-                        value: "Savidug",
-                    },
-                    {
-                        brgyName: "Chavayan",
-                        value: "Chavayan",
-                    },
-                    {
-                        brgyName: "Sumnanga",
-                        value: "Sumnanga",
-                    },
-                ];
-
-            case "Itbayat":
-                return [{
-                        brgyName: "Santa Rosa",
-                        value: "Santa Rosa",
-                    },
-                    {
-                        brgyName: "Santa Maria(Marapuy)",
-                        value: "Santa Maria",
-                    },
-                    {
-                        brgyName: "Sata Lucia (Kayhauhasan)",
-                        value: "Santa Lucia",
-                    },
-                    {
-                        brgyName: "San Rafael (Idiang)",
-                        value: "San Rafael",
-                    },
-                ];
-        }
-    }
-
-    document.addEventListener("DOMContentLoaded", function() {
-        let selectTown = document.getElementById("town").value;
-        let barangaySelect = document.getElementById("barangay");
-        let selectedBrgy = '<?php echo $barangay; ?>'
-
-        // Enable/disable barangay dropdown based on town selection
-        barangaySelect.disabled = selectTown === "";
-
-        if (selectTown !== "") {
-            barangaySelect.innerHTML = ""; // Clear previous options
-            let barangayList = barangays(selectTown);
-
-            let defaultOption = document.createElement("option");
-            defaultOption.text = "choose..";
-            defaultOption.value = "";
-            barangaySelect.appendChild(defaultOption);
-
-            barangayList.forEach(function(barangay) {
-                let option = document.createElement("option");
-                option.text = barangay.brgyName;
-                option.value = barangay.value;
-
-                if (barangay.value === selectedBrgy) {
-                    option.selected = true;
-                }
-
-                barangaySelect.appendChild(option);
-            });
-        }
-    });
-    // Event listener for Town select
-    document.getElementById("town").addEventListener("change", function() {
-        let selectTown = this.value;
-        let barangaySelect = document.getElementById("barangay");
-        let selectedBrgy = '<?php echo $barangay; ?>'
-
-        //   Enable/disable barangay dropdown based on town selection
-        barangaySelect.disabled = selectTown === "";
-        barangaySelect.innerHTML = ""; // Clear previous options
-
-        let barangayList = barangays(selectTown);
-        console.log(selectTown)
-
-        let defaultOption = document.createElement("option");
-        defaultOption.text = "choose..";
-        defaultOption.value = "";
-        barangaySelect.appendChild(defaultOption);
-
-        barangayList.forEach(function(barangay) {
-            let option = document.createElement("option");
-            option.text = barangay.brgyName;
-            option.value = barangay.value;
-
-            if (barangay.value === selectedBrgy) {
-                option.selected = true;
-            }
-
-
-            barangaySelect.appendChild(option);
-        });
-    });
-
-    //Initial population of Town Select
-    let selectTown = document.getElementById("town");
-    let selectedTown = "<?php echo $town; ?>";
-    console.log(selectedTown)
-    towns.forEach(function(town) {
-        let optionElement = document.createElement("option");
-        optionElement.textContent = town.townName;
-        optionElement.value = town.value;
-
-        if (town.value === selectedTown) {
-            optionElement.selected = true;
-        }
-
-        selectTown.appendChild(optionElement);
-    });
-</script>
 
 </html>

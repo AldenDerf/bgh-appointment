@@ -41,64 +41,7 @@ if (isset($_POST['btn-new-appoint'])) {
     $date = mysqli_real_escape_string($conn, $_POST['appointment-date']);
     $purpose = mysqli_real_escape_string($conn, $_POST['purpose']);
 
-    // Perform validation
 
-    // Validate middle initial
-    if (!empty($_POST['middle-initial']) && !preg_match("/^[a-zA-ZñÑ -']*$/", $middle_initial)) {
-        $middle_initialErr = "Only letters and white space allowed!";
-    }
-
-    // Validate firstname
-    if (empty($_POST['firstname'])) {
-        $firstnameErr = 'First name is required!';
-    } else {
-        if (!preg_match("/^[a-zA-ZñÑ -']*$/", $firstname)) {
-            $firstnameErr = "Only letters and white space allowed!";
-        }
-    }
-
-    // Validate last name
-    if (empty($_POST["lastname"])) {
-        $lastnameErr = "Last name is required!";
-    } else {
-        if (!preg_match("/^[a-zA-ZñÑ -']*$/", $lastname)) {
-            $lastnameErr = "Only letters and white space allowed!";
-        }
-    }
-
-    // Validate mobile number
-    if (empty($_POST['mobile-number'])) {
-        $mobile_numberErr = 'Mobile number is required!';
-    } else {
-        if (!preg_match("/^9[0-9]{9}$/", $mobile_number)) {
-            $mobile_numberErr = "The mobile number is invalid!";
-        }
-    }
-
-    // Validate Town
-    if (empty($_POST["town"])) {
-        $townErr = "Town is required!";
-    }
-
-    // Validate Barangay
-    if (empty($_POST["barangay"])) {
-        $barangayErr = "Barangay is required!";
-    }
-
-    // Validate time
-    if (empty($_POST["appointment-time"])) {
-        $timeErr = "Please select a time for your appointment";
-    }
-
-    // Validate date
-    if (empty($_POST["appointment-date"])) {
-        $dateErr = 'Please select a date for your appointment';
-    }
-
-    // Validate purpose
-    if (empty($_POST['purpose'])) {
-        $purposeErr = "Purpose is required!";
-    }
 
     // Check errors before inserting into the database
     if (
