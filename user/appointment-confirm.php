@@ -90,7 +90,9 @@ $conn->close();
                             </p>
                             <p>
                                 Date: <b>
-                                    <?php echo $appointment_date; ?>
+                                    <span id='date-id'>
+                                        <?php echo $appointment_date; ?>
+                                    </span>
                                 </b>
                             </p>
                             <p>
@@ -180,6 +182,7 @@ $conn->close();
 
     document.getElementById('printBtn').addEventListener('click', handlePrintButtonClick);
 
+    // Coverted time
     document.addEventListener("DOMContentLoaded", function() {
         var displayedTime = document.getElementById('time-id');
         if (displayedTime) {
@@ -188,6 +191,18 @@ $conn->close();
             console.log(timeIn12HourFormat);
         } else {
             console.error("Element with ID 'time-id' not found");
+        }
+    });
+
+    //Date converted
+    document.addEventListener("DOMContentLoaded", function() {
+        var displayedDate = document.getElementById('date-id');
+        if (displayedDate) {
+            var dateConvert = convertDateFormat(displayedDate.innerText);
+            displayedDate.innerText = dateConvert;
+            console.log(dateConvert);
+        } else {
+            console.error("Element with ID 'date-id' not found");
         }
     });
 
@@ -212,11 +227,14 @@ $conn->close();
 
     function convertDateFormat(dateString) {
         // Split the date string into month, day, and year
-        var [month, day, year] = dateString.split('/');
+        console.log(dateString)
+        var [year, month, day] = dateString.split('-');
 
-        // Create a Date object using the parsed values
-        var date = new Date(year, month - 1, day); // month - 1 because months are zero-indexed in JavaScript
+        // Convert month to its index (subtract 1 as months are zero-indexed)
+        var monthIndex =  parseInt(month, 10) - 1;
 
+     
+       
         // Define an array for month names
         var monthNames = [
             'January', 'February', 'March', 'April', 'May', 'June',
@@ -224,7 +242,7 @@ $conn->close();
         ];
 
         // Get the month name from the array
-        var monthName = monthNames[date.getMonth()];
+        var monthName = monthNames[monthIndex];
 
         // Format the date in the desired format
         var formattedDate = monthName + ' ' + day + ', ' + year;
