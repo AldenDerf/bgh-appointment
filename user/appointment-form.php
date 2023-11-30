@@ -153,7 +153,7 @@ include('./sever_side/new-appointment-auth.php');
                     <!-- Date Picker -->
                     <div class='form-group col-md-6'>
                         <label for='datepicker'>Pick Date</label>
-                        <input name='appointment-date' type="date" class="form-control <?php echo (!empty($dateErr)) ? 'is-invalid border border-danger' : ''; ?>" value="<?php echo $date; ?>" onclick=' disableTextBoxDate()' onchange="convertAndDisplayDate()">
+                        <input name='appointment-date' type="date" class="form-control <?php echo (!empty($dateErr)) ? 'is-invalid border border-danger' : ''; ?>" value="<?php echo $date; ?>" onchange="convertAndDisplayDate()">
                     </div>
                 </div>
 

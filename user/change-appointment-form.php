@@ -143,10 +143,10 @@ include("./change-appointment-func.php");
                     <!-- Time picker -->
                     <div class='form-group col-md-6 '>
                         <label for='timepicker'>Pick time</label>
-                        <input name='appointment-time' id="timepicker" class="form-control 
+                        <input name='appointment-time' type="time" class="form-control 
                             <?php
                             echo (!empty($timeErr)) ? 'is-invalid border border-danger' : '';
-                            ?>" onclick='disableTextBox()' onchange="convertAndDisplay()" value='<?php echo $time; ?>'>
+                            ?>"  value='<?php echo $time; ?>'>
 
                         <script>
                             console.log('<?php echo $timeErr; ?>')
@@ -157,8 +157,8 @@ include("./change-appointment-func.php");
 
                     <!-- Date Picker -->
                     <div class='form-group col-md-6'>
-                        <label for='datepicker'>Pick Date</label>
-                        <input name='appointment-date' id="datepicker" class="form-control <?php echo (!empty($dateErr)) ? 'is-invalid border border-danger' : ''; ?>" value="<?php echo $date; ?>" onclick=' disableTextBoxDate()' onchange="convertAndDisplayDate()">
+                        <label for='datepicker'>Pick Date (<span style='font-size:11px; font-style:italic;'>dd-mm-yyyy</span>)</label>
+                        <input name='appointment-date' type="date" class="form-control <?php echo (!empty($dateErr)) ? 'is-invalid border border-danger' : ''; ?>" value="<?php echo $date; ?>"  onchange="convertAndDisplayDate()">
                     </div>
                 </div>
 
