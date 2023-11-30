@@ -204,12 +204,16 @@ ob_end_flush(); // Move this line to the end of your script
                             </p>
                             <p>
                                 Date: <b>
-                                    <?php echo $appointment_date; ?>
+                                    <span id='date-id'>
+                                        <?php echo $appointment_date; ?>
+                                    </span>
                                 </b>
                             </p>
                             <p>
                                 Time:<b>
-                                    <?php echo $appointment_time; ?>
+                                    <span id='time-id'>
+                                        <?php echo $appointment_time; ?>
+                                    </span>
                                 </b>
                             </p>
                         </div>
@@ -370,5 +374,77 @@ ob_end_flush(); // Move this line to the end of your script
             //Redirect to change-appointment-func.php with the reference number
             window.location.href = `./change-appointment-form.php?reference_num=${reference_num}`;
         });
+    });
+
+
+
+    // Date convert function YYYY-DD-MM to Month, DD,YYYY-DD-MM
+    function convertDateFormat(dateString) {
+        // Split the date string into month, day, and year
+        console.log(dateString)
+        var [year, month, day] = dateString.split('-');
+
+        // Convert month to its index (subtract 1 as months are zero-indexed)
+        var monthIndex = parseInt(month, 10) - 1;
+
+
+
+        // Define an array for month names
+        var monthNames = [
+            'January', 'February', 'March', 'April', 'May', 'June',
+            'July', 'August', 'September', 'October', 'November', 'December'
+        ];
+
+        // Get the month name from the array
+        var monthName = monthNames[monthIndex];
+
+        // Format the date in the desired format
+        var formattedDate = monthName + ' ' + day + ', ' + year;
+
+        return formattedDate;
+    }
+
+    //Displaying the converted date
+    document.addEventListener("DOMContentLoaded", function() {
+        var displayedDate = document.getElementById('date-id');
+        if (displayedDate) {
+            var dateConvert = convertDateFormat(displayedDate.innerText);
+            displayedDate.innerText = dateConvert;
+            console.log(dateConvert);
+        } else {
+            console.error("Element with ID 'date-id' not found");
+        }
+    });
+
+    // Time 24hr to 12hr format convertion
+    function convertTo12HourFormat(time24) {
+        // Split the time into hours and minutes
+        var [hours, minutes] = time24.split(':');
+
+        // Convert the hours to a number
+        hours = parseInt(hours, 10);
+
+        // Determine AM or PM suffix
+        var suffix = hours >= 12 ? 'PM' : 'AM';
+
+        // Convert hours to 12-hour format
+        hours = hours % 12 || 12;
+
+        // Format the time in 12-hour format
+        var time12 = hours + ':' + minutes + ' ' + suffix;
+
+        return time12;
+    }
+
+    //Displaying the converted time
+    document.addEventListener("DOMContentLoaded", function() {
+        var displayedTime = document.getElementById('time-id');
+        if (displayedTime) {
+            var timeIn12HourFormat = convertTo12HourFormat(displayedTime.innerText);
+            displayedTime.innerText = timeIn12HourFormat;
+            console.log(timeIn12HourFormat);
+        } else {
+            console.error("Element with ID 'time-id' not found");
+        }
     });
 </script>

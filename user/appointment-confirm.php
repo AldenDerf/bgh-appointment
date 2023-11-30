@@ -249,10 +249,7 @@ $conn->close();
 
         return formattedDate;
     }
-
-    // var displayedTime = document.getElementById('time-id').innerText;
-    // convertTo24HourFormat(displayedTime);
-    // console.log(timeIn12HourFormat);
+    
 </script>
 
 </html>
