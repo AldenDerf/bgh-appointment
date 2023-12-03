@@ -1,94 +1,74 @@
 let towns = [
   {
-    town: 'Basco',
+    town: "Basco",
     barangays: [
-      'Kaychanarianan',
-      'Kayvaluganan',
-      'Kayhuvokan',
-      'San Antonion',
-      'San Joaquin',
-      'Chanarian'
-    ]
+      "Kaychanarianan",
+      "Kayvaluganan",
+      "Kayhuvokan",
+      "San Antonion",
+      "San Joaquin",
+      "Chanarian",
+    ],
   },
 
   {
-    town: 'Mahatao',
-    barangays: [
-      'Hañib',
-      'Kaumbakan',
-      'Panatayan',
-      'Uvoy',
-    ]
+    town: "Mahatao",
+    barangays: ["Hañib", "Kaumbakan", "Panatayan", "Uvoy"],
   },
   {
-    town: 'Ivana',
-    barangays: [
-      'Radiwan',
-      'Salagao',
-      'Tuhel',
-      'San Vicente',
-
-    ]
+    town: "Ivana",
+    barangays: ["Radiwan", "Salagao", "Tuhel", "San Vicente"],
   },
   {
-    town: 'Uyugan',
-    barangays: [
-      'Kayuganan',
-      'Kayvaluganan',
-      'Itbud',
-      'Imnajbu'
-    ]
+    town: "Uyugan",
+    barangays: ["Kayuganan", "Kayvaluganan", "Itbud", "Imnajbu"],
   },
   {
-    town: 'Sabtang',
+    town: "Sabtang",
     barangays: [
-      'Malakdang',
-      'Sinakan',
-      'Savidug',
-      'Chavayan',
-      'Sumnanga',
-      'Nakanmuan',
-    ]
+      "Malakdang",
+      "Sinakan",
+      "Savidug",
+      "Chavayan",
+      "Sumnanga",
+      "Nakanmuan",
+    ],
   },
   {
-    town: 'Itbayat',
+    town: "Itbayat",
     barangays: [
-      'Santa Rosa',
-      'Santa Maria',
-      'Santa Lucia',
-      'San Rafael',
-      'Raele'
-
-    ]
-  }
+      "Santa Rosa",
+      "Santa Maria",
+      "Santa Lucia",
+      "San Rafael",
+      "Raele",
+    ],
+  },
 ];
 
 // Function that populate Towns select element
-function populateTownSelect(){
-    const townSelect = document.getElementById('town-select');
-    
- 
-    // Populate the Towns select element
-    towns.forEach(town => {
-        const option = document.createElement("option");
-        option.textContent = town.town; // Set the text content of the option
-        townSelect.appendChild(option);
-    });
+function populateTownSelect() {
+  const townSelect = document.getElementById("town-select");
+
+  // Populate the Towns select element
+  towns.forEach((town) => {
+    const option = document.createElement("option");
+    option.textContent = town.town; // Set the text content of the option
+    townSelect.appendChild(option);
+  });
 }
 
-
-
 // Function to populate the Baranngays select element base on the selected town
-function populateBarangaySelect(selectedTown){
-  const barangaySelect = document.getElementById('barangay');
-  const selectedTownData = towns.find( town => town.town == selectedTown);
+function populateBarangaySelect(selectedTown) {
+  const barangaySelect = document.getElementById("barangay");
+  const selectedTownData = towns.find((town) => town.town == selectedTown);
 
   // Clear previous barangay options
   barangaySelect.innerHTML = '<option value="">Select Barangay</option>';
 
-  if( selectedTownData ){
-    selectedTownData.barangays.forEach(barangay => {
-      const option = document.createElement('option');
+  if (selectedTownData) {
+    selectedTownData.barangays.forEach((barangay) => {
+      const option = document.createElement("option");
       option.value = barangay;
       option.textContent = barangay;
       barangaySelect.appendChild(option);
@@ -98,6 +78,7 @@ function populateBarangaySelect(selectedTown){
     barangaySelect.disabled = false;
   } else {
     // Disable the barangay select if a town is selected
+    barangaySelect.classList.add("is-invalid");
     barangaySelect.disabled = true;
   }
 }
@@ -112,6 +93,5 @@ document.getElementById("town-select").addEventListener("change", function () {
 });
 
 // Initially disable the Barangay Select
-// Initially disable the Barangay Select
-const barangaySelect = document.getElementById('barangay');
-barangaySelect.disabled = true;
+
+document.getElementById("barangay").disabled = true;

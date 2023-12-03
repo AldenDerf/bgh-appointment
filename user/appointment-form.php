@@ -109,20 +109,6 @@ include('./sever_side/new-appointment-auth.php');
 
                 <!-- Date and time picker -->
                 <div class="row g-3 mb-4">
-                    <!-- Time picker -->
-                    <div class='form-group col-md-6 '>
-                        <label for='timepicker'>Pick time</label>
-                        <input name='appointment-time' id='appoint-date' type="time" class="form-control 
-                            <?php
-                            echo (!empty($timeErr)) ? 'is-invalid border border-danger' : '';
-                            ?>" value='<?php echo $time; ?>'>
-
-                        <script>
-                            console.log('<?php echo $timeErr; ?>')
-                        </script>
-
-                    </div>
-
 
                     <!-- Date Picker -->
                     <div class='form-group col-md-6'>
@@ -130,15 +116,23 @@ include('./sever_side/new-appointment-auth.php');
                         <input name='appointment-date' type="date" class="form-control">
                         <div class="invalid-feedback" id='date-error'></div>
                     </div>
+
+                    <!-- time picker -->
+                    <div class='form-group col-md-6 '>
+                        <label for='timepicker'>Pick time</label>
+                        <input name='appointment-time' id='timepicker' type="time" class="form-control">
+                        <div class="invalid-feedback" id='time-error'></div>
+                    </div>
+
+
+
                 </div>
 
                 <!-- Purpose -->
                 <div class='form-group mb-5'>
                     <label for='purpose'>Purpose</label>
-                    <textarea name='purpose' class="form-control <?php echo (!empty($purposeErr)) ? 'is-invalid' : ''; ?>" id='purpose' placeholder="Please enter your purpose..." rows='4'><?php echo $purpose; ?></textarea>
-                    <div class='invalid-feedback'>
-                        <?php echo (!empty($purposeErr)) ? $purposeErr : ''; ?>
-                    </div>
+                    <textarea name='purpose' class='form-control' id='purpose' placeholder="Please enter your purpose..." rows='4'><?php echo $purpose; ?></textarea>
+                    <div class='invalid-feedback' id='purpose-error'></div>
                 </div>
 
                 <!-- Buttons -->
